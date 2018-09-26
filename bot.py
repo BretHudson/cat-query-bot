@@ -13,7 +13,10 @@ if __name__ == "__main__":
 	
 	# Retrieve JSON data containing images
 	params = generate_google_search_params(api_key, cx_id, "sniper cat", safe)
-	r = requests.get("https://www.googleapis.com/customsearch/v1", params=params)
+	if TEST_SCRAPE_URL:
+		r = requests.get(TEST_SCRAPE_URL)
+	else:
+		r = requests.get("https://www.googleapis.com/customsearch/v1", params=params)
 	print("Requesting data from", r.url)
 	
 	print(r) # Prints response code
