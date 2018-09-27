@@ -13,7 +13,7 @@ MY_CONSUMER_SECRET = 'Your Consumer Secret Key'
 MY_ACCESS_TOKEN_KEY = 'Your Twitter API Access Token Key'
 MY_ACCESS_TOKEN_SECRET = 'Your Access Token Secret'
 
-WORDS_FILE = "mywords.txt" # The word list to use. Each word should be on its own line
+WORDS_URL = "" # A URL that returns JSON (success/word)
 TEST_SCRAPE_URL = False # The url to JSON data containing image results
 
 DEBUG = True # If True, everything will run as normal but the results will not be posted to Twitter

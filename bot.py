@@ -45,14 +45,15 @@ if __name__ == "__main__":
 	safe = "active" if SAFE_SEARCH else "off"
 	
 	# Get latest word
-	with open(WORDS_FILE, 'r') as fin:
-	    data = fin.read().splitlines(True)
-	
-	try:
-		word = data[0].rstrip()
+	req_headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+	word_req = requests.get(WORDS_URL, headers=req_headers)
+	print("Requesting word from", word_req.url)
+	if word_req.status_code == requests.codes.ok and word_req.json()['success']:
+		word = word_req.json()['word']
+		
 		params = generate_google_search_params(api_key, cx_id, "\"" + word + "\" \"cat\"", safe)
 		if TEST_SCRAPE_URL:
-			r = requests.get(TEST_SCRAPE_URL)
+			r = requests.get(TEST_SCRAPE_URL, headers=req_headers)
 		else:
 			r = requests.get("https://www.googleapis.com/customsearch/v1", params=params)
 		print("Requesting data from", r.url)
@@ -69,11 +70,7 @@ if __name__ == "__main__":
 			print('\nFound images', image_links)
 			
 			post_tweets(word, image_links, total_results)
-			
-			# Remove the word from our text file
-			with open(WORDS_FILE, 'w') as fout:
-			    fout.writelines(data[1:])
 		
 		print('\nSuccessfully finished\n')
-	except IndexError:
-		print('\nFailed: Words list is empty\n')
+	else:
+		print('\nFailed: Unable to get word\n')
