@@ -45,7 +45,7 @@ if __name__ == "__main__":
 	safe = "active" if SAFE_SEARCH else "off"
 	
 	# Get latest word
-	with open('mywords.txt', 'r') as fin:
+	with open(WORDS_FILE, 'r') as fin:
 	    data = fin.read().splitlines(True)
 	
 	try:
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 			post_tweets(word, image_links, total_results)
 			
 			# Remove the word from our text file
-			with open('testwords.txt', 'w') as fout:
+			with open(WORDS_FILE, 'w') as fout:
 			    fout.writelines(data[1:])
 		
 		print('\nSuccessfully finished\n')
